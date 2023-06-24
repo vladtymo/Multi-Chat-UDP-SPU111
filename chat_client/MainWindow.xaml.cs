@@ -28,30 +28,42 @@ namespace chat_client
             InitializeComponent();
         }
 
+        private async void Listen()
+        {
+            while (true)
+            {
+                var res = await client.ReceiveAsync();
+                string message = Encoding.UTF8.GetString(res.Buffer);
+                msgList.Items.Add(message);
+            }
+        }
+
         private void SendMessageBtnClick(object sender, RoutedEventArgs e)
         {
-            IPEndPoint serverIp = new IPEndPoint(IPAddress.Parse(ipTxtBox.Text), int.Parse(portTxtBox.Text));
-
             string message = msgTxtBox.Text;
-            byte[] data = Encoding.UTF8.GetBytes(message);
-
-            // TODO: rewrite to async 
-            client.Send(data, serverIp);
+            SendMessage(message);
         }
 
         private void JoinBtnClick(object sender, RoutedEventArgs e)
         {
-            IPEndPoint serverIp = new IPEndPoint(IPAddress.Parse(ipTxtBox.Text), int.Parse(portTxtBox.Text));
+            SendMessage("<join>");
 
-            byte[] data = Encoding.UTF8.GetBytes("<join>");
-
-            // TODO: rewrite to async 
-            client.Send(data, serverIp);
+            Listen();
         }
 
         private void LeaveBtnClick(object sender, RoutedEventArgs e)
         {
+            SendMessage("<leave>");
+        }
 
+        private void SendMessage(string text)
+        {
+            IPEndPoint serverIp = new IPEndPoint(IPAddress.Parse(ipTxtBox.Text), int.Parse(portTxtBox.Text));
+
+            byte[] data = Encoding.UTF8.GetBytes(text);
+
+            // TODO: rewrite to async 
+            client.Send(data, serverIp);
         }
     }
 }

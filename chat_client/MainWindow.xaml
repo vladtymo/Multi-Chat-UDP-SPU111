@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:chat_client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="396" Width="300">
     <DockPanel>
         <ToolBar DockPanel.Dock="Top">
             <Button Click="JoinBtnClick">Join</Button>
