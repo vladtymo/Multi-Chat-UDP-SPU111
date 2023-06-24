@@ -23,6 +23,7 @@ namespace chat_client
     public partial class MainWindow : Window
     {
         UdpClient client = new();
+        private bool isListening = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -30,7 +31,7 @@ namespace chat_client
 
         private async void Listen()
         {
-            while (true)
+            while (isListening)
             {
                 var res = await client.ReceiveAsync();
                 string message = Encoding.UTF8.GetString(res.Buffer);
@@ -47,23 +48,24 @@ namespace chat_client
         private void JoinBtnClick(object sender, RoutedEventArgs e)
         {
             SendMessage("<join>");
-
+            isListening = true;
             Listen();
         }
 
         private void LeaveBtnClick(object sender, RoutedEventArgs e)
         {
             SendMessage("<leave>");
+            isListening = false;
         }
 
-        private void SendMessage(string text)
+        private async void SendMessage(string text)
         {
             IPEndPoint serverIp = new IPEndPoint(IPAddress.Parse(ipTxtBox.Text), int.Parse(portTxtBox.Text));
 
             byte[] data = Encoding.UTF8.GetBytes(text);
 
-            // TODO: rewrite to async 
-            client.Send(data, serverIp);
+ 
+            await client.SendAsync(data, serverIp);
         }
     }
 }
