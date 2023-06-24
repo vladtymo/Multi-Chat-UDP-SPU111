@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +22,36 @@ namespace chat_client
     /// </summary>
     public partial class MainWindow : Window
     {
+        UdpClient client = new();
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void SendMessageBtnClick(object sender, RoutedEventArgs e)
+        {
+            IPEndPoint serverIp = new IPEndPoint(IPAddress.Parse(ipTxtBox.Text), int.Parse(portTxtBox.Text));
+
+            string message = msgTxtBox.Text;
+            byte[] data = Encoding.UTF8.GetBytes(message);
+
+            // TODO: rewrite to async 
+            client.Send(data, serverIp);
+        }
+
+        private void JoinBtnClick(object sender, RoutedEventArgs e)
+        {
+            IPEndPoint serverIp = new IPEndPoint(IPAddress.Parse(ipTxtBox.Text), int.Parse(portTxtBox.Text));
+
+            byte[] data = Encoding.UTF8.GetBytes("<join>");
+
+            // TODO: rewrite to async 
+            client.Send(data, serverIp);
+        }
+
+        private void LeaveBtnClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -8,15 +8,15 @@
         Title="MainWindow" Height="450" Width="800">
     <DockPanel>
         <ToolBar DockPanel.Dock="Top">
-            <Button >Join</Button>
-            <Button>Leave</Button>
+            <Button Click="JoinBtnClick">Join</Button>
+            <Button Click="LeaveBtnClick">Leave</Button>
             <Label>IP:</Label>
             <TextBox Name="ipTxtBox" MinWidth="100">127.0.0.1</TextBox>
             <Label>Port:</Label>
             <TextBox Name="portTxtBox" MinWidth="50">3737</TextBox>
         </ToolBar>
         <DockPanel Margin="10,0,10,10" DockPanel.Dock="Bottom">
-            <Button IsDefault="True" Margin="10,0,0,0" Padding="20,5" DockPanel.Dock="Right" >Send</Button>
+            <Button Click="SendMessageBtnClick" IsDefault="True" Margin="10,0,0,0" Padding="20,5" DockPanel.Dock="Right" >Send</Button>
             <TextBox Text="Lorem Ipsum!" x:Name="msgTxtBox" VerticalContentAlignment="Center"></TextBox>
         </DockPanel>
         <ListBox Name="msgList" Margin="10"></ListBox>
